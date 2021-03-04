@@ -3,6 +3,16 @@
 host=${1}
 hostname=$(/usr/bin/hostname)
 
+function assert_exists() {
+    local program=${1}
+
+    if ! command -v ${program} &> /dev/null
+    then
+        echo "Can't find ${program} command, exiting..."
+        exit 1
+    fi
+}
+
 if [[ "x${host}" == "x" ]]; then
     echo ""
     # echo "Need to supply wiregard connection..."
