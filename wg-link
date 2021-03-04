@@ -1,7 +1,6 @@
 #!/bin/bash
 
 host=${1}
-hostname=$($(which hostname))
 
 function assert_exists() {
     local program=${1}
@@ -16,6 +15,8 @@ function assert_exists() {
 # make sure we have hostname command, not a give on some distros
 # specifically Arch
 assert_exists hostname
+
+hostname=$($(which hostname))
 
 if [[ "x${host}" == "x" ]]; then
     echo ""
