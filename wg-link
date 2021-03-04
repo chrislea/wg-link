@@ -1,7 +1,7 @@
 #!/bin/bash
 
 host=${1}
-hostname=$(/usr/bin/hostname)
+hostname=$($(which hostname))
 
 function assert_exists() {
     local program=${1}
