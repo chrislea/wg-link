@@ -15,8 +15,10 @@ function assert_exists() {
 # make sure we have hostname command, not a give on some distros
 # specifically Arch
 assert_exists hostname
+assert_exists nmcli
 
 hostname=$($(which hostname))
+nmcli=$(which nmcli)
 
 if [[ "x${host}" == "x" ]]; then
     echo ""
@@ -25,7 +27,7 @@ if [[ "x${host}" == "x" ]]; then
     echo ""
     echo "Connection options here on ${hostname}:"
     echo ""
-    for conn in $(/usr/bin/nmcli conn show | /bin/grep 'wireguard' \
+    for conn in $(${nmcli} conn show | /bin/grep 'wireguard' \
 	    | awk '{print $1}' | cut -d'-' -f2); do
         echo "  ${conn}"
     done
@@ -40,6 +42,6 @@ if [[ "x${link}" == "x" ]]; then
     action="up"
 fi
 
-/usr/bin/nmcli connection ${action} ${hostname}-${host}
+${nmcli} connection ${action} ${hostname}-${host}
 
 exit 0
