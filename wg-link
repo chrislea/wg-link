@@ -1,0 +1,30 @@
+#!/bin/bash
+
+host=${1}
+hostname=$(/usr/bin/hostname)
+
+if [[ "x${host}" == "x" ]]; then
+    echo ""
+    # echo "Need to supply wiregard connection..."
+    echo "Usage: ${0##*/} <wireguard connection>"
+    echo ""
+    echo "Connection options here on ${hostname}:"
+    echo ""
+    for conn in $(/usr/bin/nmcli conn show | /bin/grep 'wireguard' \
+	    | awk '{print $1}' | cut -d'-' -f2); do
+        echo "  ${conn}"
+    done
+    echo ""
+    exit 1
+fi
+
+link=$(/bin/ip l | /bin/grep ${host})
+action="down"
+
+if [[ "x${link}" == "x" ]]; then
+    action="up"
+fi
+
+/usr/bin/nmcli connection ${action} ${hostname}-${host}
+
+exit 0
