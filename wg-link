@@ -13,6 +13,10 @@ function assert_exists() {
     fi
 }
 
+# make sure we have hostname command, not a give on some distros
+# specifically Arch
+assert_exists hostname
+
 if [[ "x${host}" == "x" ]]; then
     echo ""
     # echo "Need to supply wiregard connection..."
